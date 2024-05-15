@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShortcutDrawer.UI.WPF", "ShortcutDrawer.UI.WPF\ShortcutDrawer.UI.WPF.csproj", "{34CA3311-DE8F-4F45-83AA-6E6B0FDEA6C6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1ECFF79A-0286-4113-B746-9430B343B186}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{34CA3311-DE8F-4F45-83AA-6E6B0FDEA6C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34CA3311-DE8F-4F45-83AA-6E6B0FDEA6C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34CA3311-DE8F-4F45-83AA-6E6B0FDEA6C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34CA3311-DE8F-4F45-83AA-6E6B0FDEA6C6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AA915CC1-D95D-47CF-BA96-22269601799A}
+	EndGlobalSection
+EndGlobal

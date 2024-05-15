@@ -1,0 +1,68 @@
+<Window x:Class="ShortcutDrawer.UI.WPF.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:tray="http://schemas.lepo.co/wpfui/2022/xaml/tray"
+        xmlns:mvvm="clr-namespace:ShortcutDrawer.UI.WPF.MVVM"
+        xmlns:local="clr-namespace:ShortcutDrawer.UI.WPF"
+        xmlns:v="clr-namespace:ShortcutDrawer.UI.WPF.Views"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance v:MainWindow, IsDesignTimeCreatable=True}"
+        Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}" 
+        Height="{Binding ViewModel.Height}" Width="{Binding ViewModel.Width}"
+        WindowStartupLocation="Manual"
+        Closing="FluentWindow_Closing"
+        AllowsTransparency="True" WindowStyle="None" Background="Transparent" Topmost="True" ShowInTaskbar="False"
+        Visibility="{Binding ViewModel.ShowWindow, Converter={StaticResource boolToVis}}"
+        >
+    <Window.Resources>
+        <ResourceDictionary>
+            <mvvm:BindingProxy x:Key="proxy" Data="{Binding }"/>
+        </ResourceDictionary>
+    </Window.Resources>
+    <!--<Grid Background="#55FFFFFF"  Tag="{Binding DataContext}" x:Name="myGrid">-->
+    <Grid>
+        <!--<Rectangle Grid.Row="0" Stroke="Aqua" StrokeThickness="4" />-->
+        <!--<Rectangle Grid.Row="0" Stroke="LightGray" StrokeThickness="4" StrokeLineJoin="Round" />-->
+        <!--<Border Grid.Row="0" BorderThickness="1,0,1,0" BorderBrush="LightGray" Panel.ZIndex="0"/>-->
+        <!--<Rectangle Grid.Row="0" Fill="Red" Width="100" Height="100"/>-->
+        <!--<ui:TitleBar Background="Red" ShowMinimize="False" CanMaximize="False" ShowMaximize="False" Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}" />-->
+        <tray:NotifyIcon
+            Grid.Row="0"
+            FocusOnLeftClick="True"
+            Icon="pack://application:,,,/Resources/Tools.ico"
+            MenuOnRightClick="True"
+            TooltipText="Shortcut Drawer"
+            >
+            <tray:NotifyIcon.Menu>
+
+                <ContextMenu DataContext="{Binding Source={StaticResource proxy}, Path=Data.ViewModel}">
+                    <MenuItem Header="Click Me!" Command="{Binding TrayClickedCommand}" />
+                    <!--<MenuItem Header="Open Window" Command="{Binding OpenWindowCommand}"/>-->
+                    <MenuItem Header="Exit" Command="{Binding CloseCommand}"/>
+                </ContextMenu>
+
+            </tray:NotifyIcon.Menu>
+        </tray:NotifyIcon>
+
+        <Grid Visibility="{Binding ViewModel.ShowAqua, Converter={StaticResource boolToVis}}">
+            <Border BorderThickness="0,1,0,1" BorderBrush="Aqua" Panel.ZIndex="0"/>
+        </Grid>
+
+        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,30" Panel.ZIndex="99">
+            <!--<Border BorderThickness="0,1,0,1" Margin="5" BorderBrush="Azure"/>-->
+            <!--<ui:VirtualizingWrapPanel >
+            </ui:VirtualizingWrapPanel>-->
+            <VirtualizingStackPanel Panel.ZIndex="1" Margin="5,10">
+                <ui:HyperlinkButton Appearance="Light" Background="#20FFFFFF" Content="Click Me" Margin="20,0" Icon="{ui:SymbolIcon Folder32}" Width="150" MouseOverBorderBrush="White"  
+                                    NavigateUri="C:\TFS\Development\Shortcut Drawer\Shortcut Drawer.sln"/>
+                <ui:HyperlinkButton Appearance="Light" Background="#20FFFFFF" Content="Click Me" Margin="20,0" Icon="{ui:SymbolIcon Folder32}" Width="150" MouseOverBorderBrush="White"  
+                                    NavigateUri="W:\"/>
+            </VirtualizingStackPanel>
+            <Rectangle Width="200" Height="850" Fill="{x:Null}" Panel.ZIndex="0" IsHitTestVisible="False"/>
+        </Grid>
+        
+    </Grid>
+</Window>
