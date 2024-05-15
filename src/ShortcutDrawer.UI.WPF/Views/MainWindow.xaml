@@ -68,7 +68,7 @@
         <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,30,10,0" Panel.ZIndex="99"
               Background="#20FF00FF" Visibility="{Binding ViewModel.ShowDrawer, Converter={StaticResource boolToVisCollapsed}}"
               >
-            <VirtualizingStackPanel Panel.ZIndex="1" Margin="5,5,5,5">
+            <VirtualizingStackPanel Panel.ZIndex="1" Margin="5,5,5,5" MinWidth="150">
                 <ItemsControl ItemsSource="{Binding ViewModel.ShortcutItems}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>

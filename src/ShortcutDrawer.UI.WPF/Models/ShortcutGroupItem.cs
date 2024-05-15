@@ -1,18 +1,21 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ShortcutDrawer.UI.WPF.Models;
 
+[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 public partial class ShortcutGroupItem : ShortcutItemBase
 {
     private bool _canShowAgain = true;
-    private bool _childMouseOver = false;
 
     [ObservableProperty]
+    [JsonProperty("ShortcutItems")]
     private ObservableCollection<ShortcutItem> _shortcutItems = new ObservableCollection<ShortcutItem>();
 
     [ObservableProperty]
@@ -34,28 +37,13 @@ public partial class ShortcutGroupItem : ShortcutItemBase
     }
 
     [RelayCommand]
-    private async void OnMouseLeave()
+    private void OnMouseLeave()
     {
         _ = Task.Run(async Task? () =>
         {
             await Task.Delay(1000);
-            if (!_childMouseOver)
-            {
-                ShowShortcuts = false;
-                _canShowAgain = true;
-            }
+            ShowShortcuts = false;
+            _canShowAgain = true;
         });
-    }
-
-    [RelayCommand]
-    private void OnChildMouseEnter()
-    {
-        _childMouseOver = true;
-    }
-
-    [RelayCommand]
-    private void OnChildMouseLeave()
-    {
-        _childMouseOver = false;
     }
 }

@@ -18,11 +18,6 @@
           }
         ]
       },
-      "ShowShortcuts": false,
-      "MouseEnterCommand": { "$type": "CommunityToolkit.Mvvm.Input.RelayCommand, CommunityToolkit.Mvvm" },
-      "MouseLeaveCommand": { "$type": "CommunityToolkit.Mvvm.Input.RelayCommand, CommunityToolkit.Mvvm" },
-      "ChildMouseEnterCommand": { "$type": "CommunityToolkit.Mvvm.Input.RelayCommand, CommunityToolkit.Mvvm" },
-      "ChildMouseLeaveCommand": { "$type": "CommunityToolkit.Mvvm.Input.RelayCommand, CommunityToolkit.Mvvm" },
       "Name": "Group 1"
     }
   ]

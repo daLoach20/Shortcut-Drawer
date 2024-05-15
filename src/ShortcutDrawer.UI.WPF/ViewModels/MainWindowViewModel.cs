@@ -98,8 +98,6 @@ public partial class MainWindowViewModel : ObservableObject
                 fw.WriteLine(x);
             }
 
-            
-
             await Task.Delay(50);
             ShowAqua = true;
             await Task.Delay(2000);
