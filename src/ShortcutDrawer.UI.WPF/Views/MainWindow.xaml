@@ -6,6 +6,7 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:tray="http://schemas.lepo.co/wpfui/2022/xaml/tray"
         xmlns:mvvm="clr-namespace:ShortcutDrawer.UI.WPF.MVVM"
+        xmlns:models="clr-namespace:ShortcutDrawer.UI.WPF.Models"
         xmlns:local="clr-namespace:ShortcutDrawer.UI.WPF"
         xmlns:v="clr-namespace:ShortcutDrawer.UI.WPF.Views"
         mc:Ignorable="d"
@@ -55,11 +56,18 @@
             <!--<Border BorderThickness="0,1,0,1" Margin="5" BorderBrush="Azure"/>-->
             <!--<ui:VirtualizingWrapPanel >
             </ui:VirtualizingWrapPanel>-->
-            <VirtualizingStackPanel Panel.ZIndex="1" Margin="5,10">
-                <ui:HyperlinkButton Appearance="Light" Background="#20FFFFFF" Content="Click Me" Margin="20,0" Icon="{ui:SymbolIcon Folder32}" Width="150" MouseOverBorderBrush="White"  
-                                    NavigateUri="C:\TFS\Development\Shortcut Drawer\Shortcut Drawer.sln"/>
-                <ui:HyperlinkButton Appearance="Light" Background="#20FFFFFF" Content="Click Me" Margin="20,0" Icon="{ui:SymbolIcon Folder32}" Width="150" MouseOverBorderBrush="White"  
-                                    NavigateUri="W:\"/>
+            <VirtualizingStackPanel Panel.ZIndex="1" Margin="5,10" 
+                                    Background="#20FF00FF"
+                                    >
+                <ItemsControl ItemsSource="{Binding ViewModel.ShortcutItems}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type models:ShortcutItem}">
+                            <v:ShortcutItemView 
+                                Padding="0,3"
+                                />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </VirtualizingStackPanel>
             <Rectangle Width="200" Height="850" Fill="{x:Null}" Panel.ZIndex="0" IsHitTestVisible="False"/>
         </Grid>
