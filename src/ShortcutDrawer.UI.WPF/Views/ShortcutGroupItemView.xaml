@@ -1,0 +1,68 @@
+<UserControl x:Class="ShortcutDrawer.UI.WPF.Views.ShortcutGroupItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:ShortcutDrawer.UI.WPF.Views"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:models="clr-namespace:ShortcutDrawer.UI.WPF.Models"
+             mc:Ignorable="d" d:Background="White" d:DataContext="{d:DesignInstance Type=models:ShortcutGroupItem}"
+             d:Height="30" d:Width="250"
+             >
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="boolToVisCollapsed" />
+    </UserControl.Resources>
+    <Grid>
+        <Border Background="Black" CornerRadius="2">
+            <Grid>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <i:InvokeCommandAction Command="{Binding MouseEnterCommand}" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <!--<TextBlock Grid.Row="0" Text="{Binding Name}" Foreground="White"/>-->
+                <ui:Button 
+                    Content="{Binding Name}"
+                    Grid.Row="0" 
+                    Height="35"
+                    HorizontalContentAlignment="Left"
+                    HorizontalAlignment="Stretch"
+                    VerticalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    Foreground="White"
+                    Background="#995555FF">
+                </ui:Button>
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding ShortcutItems}" Visibility="{Binding ShowShortcuts, Converter={StaticResource boolToVisCollapsed}}">
+                    <!--<i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <i:InvokeCommandAction Command="{Binding ChildMouseEnterCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>-->
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ui:HyperlinkButton
+                    Content="{Binding Name}"
+                    NavigateUri="{Binding Path}"
+                    Icon="{ui:SymbolIcon ArrowStepBack16}"
+                    Background="#995555FF"
+                    Height="35"
+                    HorizontalContentAlignment="Left"
+                    HorizontalAlignment="Stretch"
+                    VerticalContentAlignment="Center"
+                    Foreground="White"
+                    />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -39,7 +39,7 @@ public partial class MainWindowViewModel : ObservableObject
     private int _width = 0;
 
     [ObservableProperty]
-    internal ObservableCollection<ShortcutItem> _shortcutItems = new ObservableCollection<ShortcutItem>();
+    internal ObservableCollection<ShortcutItemBase> _shortcutItems = new ObservableCollection<ShortcutItemBase>();
 
     private void InitializeViewModel()
     {
@@ -57,11 +57,19 @@ public partial class MainWindowViewModel : ObservableObject
 
     private void LoadShortcutItems()
     {
+        var itemsToLoad = new List<ShortcutItemBase>();
         ShortcutItems.Add(new ShortcutItem() { Name = "Personal - Shortcut Drawer", Path = @"C:\TFS\Development\s\Shortcut-Drawer\src\Shortcut Drawer.sln" });
-        ShortcutItems.Add(new ShortcutItem() { Name = "1Dev - CustomerInquiry", Path = @"C:\TFS\1\GuiPrograms\Development\Customer Programs\CustomerInquiry\CustomerInquiry.sln" });
-        ShortcutItems.Add(new ShortcutItem() { Name = "1Main - CustomerInquiry", Path = @"C:\TFS\1\GuiPrograms\Main\Customer Programs\CustomerInquiry\CustomerInquiry.sln" });
-        ShortcutItems.Add(new ShortcutItem() { Name = "2Dev - CustomerInquiry", Path = @"C:\TFS\2\GuiPrograms\Development\Customer Programs\CustomerInquiry\CustomerInquiry.sln" });
-        ShortcutItems.Add(new ShortcutItem() { Name = "2Main - CustomerInquiry", Path = @"C:\TFS\2\GuiPrograms\Main\Customer Programs\CustomerInquiry\CustomerInquiry.sln" });
+
+        var group1 = new ShortcutGroupItem() { Name = "Primary Workspace" };
+        group1.ShortcutItems.Add(new ShortcutItem() { Name = "Dev - CustomerInquiry", Path = @"C:\TFS\1\GuiPrograms\Development\Customer Programs\CustomerInquiry\CustomerInquiry.sln" });
+        group1.ShortcutItems.Add(new ShortcutItem() { Name = "Main - CustomerInquiry", Path = @"C:\TFS\1\GuiPrograms\Main\Customer Programs\CustomerInquiry\CustomerInquiry.sln" });
+
+        var group2 = new ShortcutGroupItem() { Name = "Secondary Workspace" };
+        group2.ShortcutItems.Add(new ShortcutItem() { Name = "Dev - CustomerInquiry", Path = @"C:\TFS\2\GuiPrograms\Development\Customer Programs\CustomerInquiry\CustomerInquiry.sln" });
+        group2.ShortcutItems.Add(new ShortcutItem() { Name = "Main - CustomerInquiry", Path = @"C:\TFS\2\GuiPrograms\Main\Customer Programs\CustomerInquiry\CustomerInquiry.sln" });
+
+        ShortcutItems.Add(group1);
+        ShortcutItems.Add(group2);
     }
 
     [RelayCommand]

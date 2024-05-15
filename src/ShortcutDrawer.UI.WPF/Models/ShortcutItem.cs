@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace ShortcutDrawer.UI.WPF.Models;
 
-public partial class ShortcutItem : ObservableObject
+public partial class ShortcutItem : ShortcutItemBase
 {
-    [ObservableProperty]
-    private string? _Name;
-
     [ObservableProperty]
     private string? _Path;
 }
