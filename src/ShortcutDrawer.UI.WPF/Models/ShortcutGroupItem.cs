@@ -37,8 +37,8 @@ public partial class ShortcutGroupItem : ShortcutItemBase
     private async void OnMouseLeave()
     {
         _ = Task.Run(async Task? () =>
-        { 
-            await Task.Delay(100);
+        {
+            await Task.Delay(1000);
             if (!_childMouseOver)
             {
                 ShowShortcuts = false;

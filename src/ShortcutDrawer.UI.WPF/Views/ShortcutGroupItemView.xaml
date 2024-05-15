@@ -31,13 +31,15 @@
                 <!--<TextBlock Grid.Row="0" Text="{Binding Name}" Foreground="White"/>-->
                 <ui:Button 
                     Content="{Binding Name}"
-                    Grid.Row="0" 
+                    Icon="{ui:SymbolIcon ArrowStepBack16}"
+                    Grid.Row="0"
                     Height="35"
                     HorizontalContentAlignment="Left"
                     HorizontalAlignment="Stretch"
                     VerticalContentAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="White"
+                    MouseOverBackground="#995555FF"
                     Background="#995555FF">
                 </ui:Button>
                 <ItemsControl Grid.Row="1" ItemsSource="{Binding ShortcutItems}" Visibility="{Binding ShowShortcuts, Converter={StaticResource boolToVisCollapsed}}">
@@ -51,8 +53,8 @@
                             <ui:HyperlinkButton
                     Content="{Binding Name}"
                     NavigateUri="{Binding Path}"
-                    Icon="{ui:SymbolIcon ArrowStepBack16}"
-                    Background="#995555FF"
+                    Icon="{ui:SymbolIcon Folder32}"
+                    Background="#99FF00FF"
                     Height="35"
                     HorizontalContentAlignment="Left"
                     HorizontalAlignment="Stretch"

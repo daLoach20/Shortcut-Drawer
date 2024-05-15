@@ -1,0 +1,29 @@
+{
+  "$type": "System.Collections.Generic.List`1[[ShortcutDrawer.UI.WPF.Models.ShortcutItemBase, ShortcutDrawer.UI.WPF]], System.Private.CoreLib",
+  "$values": [
+    {
+      "$type": "ShortcutDrawer.UI.WPF.Models.ShortcutItem, ShortcutDrawer.UI.WPF",
+      "Path": "C:\\",
+      "Name": "C:\\ Drive"
+    },
+    {
+      "$type": "ShortcutDrawer.UI.WPF.Models.ShortcutGroupItem, ShortcutDrawer.UI.WPF",
+      "ShortcutItems": {
+        "$type": "System.Collections.ObjectModel.ObservableCollection`1[[ShortcutDrawer.UI.WPF.Models.ShortcutItem, ShortcutDrawer.UI.WPF]], System.ObjectModel",
+        "$values": [
+          {
+            "$type": "ShortcutDrawer.UI.WPF.Models.ShortcutItem, ShortcutDrawer.UI.WPF",
+            "Path": "C:\\",
+            "Name": "C:\\ Drive"
+          }
+        ]
+      },
+      "ShowShortcuts": false,
+      "MouseEnterCommand": { "$type": "CommunityToolkit.Mvvm.Input.RelayCommand, CommunityToolkit.Mvvm" },
+      "MouseLeaveCommand": { "$type": "CommunityToolkit.Mvvm.Input.RelayCommand, CommunityToolkit.Mvvm" },
+      "ChildMouseEnterCommand": { "$type": "CommunityToolkit.Mvvm.Input.RelayCommand, CommunityToolkit.Mvvm" },
+      "ChildMouseLeaveCommand": { "$type": "CommunityToolkit.Mvvm.Input.RelayCommand, CommunityToolkit.Mvvm" },
+      "Name": "Group 1"
+    }
+  ]
+}

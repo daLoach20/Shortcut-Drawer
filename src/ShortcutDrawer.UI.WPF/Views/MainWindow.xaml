@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:tray="http://schemas.lepo.co/wpfui/2022/xaml/tray"
         xmlns:mvvm="clr-namespace:ShortcutDrawer.UI.WPF.MVVM"
@@ -21,10 +22,19 @@
     <Window.Resources>
         <ResourceDictionary>
             <mvvm:BindingProxy x:Key="proxy" Data="{Binding }"/>
+            <BooleanToVisibilityConverter x:Key="boolToVisCollapsed" />
         </ResourceDictionary>
     </Window.Resources>
     <!--<Grid Background="#55FFFFFF"  Tag="{Binding DataContext}" x:Name="myGrid">-->
     <Grid>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseEnter">
+                <i:InvokeCommandAction Command="{Binding ViewModel.ShowDrawerCommand}" />
+            </i:EventTrigger>
+            <i:EventTrigger EventName="MouseLeave">
+                <i:InvokeCommandAction Command="{Binding ViewModel.HideDrawerCommand}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
         <!--<Rectangle Grid.Row="0" Stroke="Aqua" StrokeThickness="4" />-->
         <!--<Rectangle Grid.Row="0" Stroke="LightGray" StrokeThickness="4" StrokeLineJoin="Round" />-->
         <!--<Border Grid.Row="0" BorderThickness="1,0,1,0" BorderBrush="LightGray" Panel.ZIndex="0"/>-->
@@ -52,11 +62,13 @@
             <Border BorderThickness="0,1,0,1" BorderBrush="Aqua" Panel.ZIndex="0"/>
         </Grid>
 
-        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,30" Panel.ZIndex="99"
-              Background="#20FF00FF"
+        <ui:Button VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,50" Width="10" Height="50">
+        </ui:Button>
+
+        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,30,10,0" Panel.ZIndex="99"
+              Background="#20FF00FF" Visibility="{Binding ViewModel.ShowDrawer, Converter={StaticResource boolToVisCollapsed}}"
               >
-            <VirtualizingStackPanel Panel.ZIndex="1" Margin="5,5">
-                <!--<Rectangle Margin="0,10,0,0"/>-->
+            <VirtualizingStackPanel Panel.ZIndex="1" Margin="5,5,5,5">
                 <ItemsControl ItemsSource="{Binding ViewModel.ShortcutItems}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
