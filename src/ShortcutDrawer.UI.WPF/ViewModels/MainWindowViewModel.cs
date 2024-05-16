@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,10 +13,13 @@ using Screen = System.Windows.Forms.Screen;
 
 namespace ShortcutDrawer.UI.WPF.ViewModels;
 
-public partial class MainWindowViewModel : ObservableObject
+public partial class MainWindowViewModel : ObservableObject, IDisposable
 {
     private bool _IsInitialized = false;
-    private bool _IsAboutToHideDrawer = false;
+    private CancellationTokenSource? _hideCancellationTokenSource;
+    private CancellationToken _hideCancellationToken;
+    private CancellationTokenSource? _showCancellationTokenSource;
+    private CancellationToken _showCancellationToken;
 
     public MainWindowViewModel()
     {
@@ -143,25 +147,58 @@ public partial class MainWindowViewModel : ObservableObject
     [RelayCommand]
     private void OnShowDrawer()
     {
-        _ = Task.Run(async Task? () =>
+        if (_hideCancellationTokenSource != null)
         {
-            await Task.Delay(550);
-            ShowDrawer = true;
-            _IsAboutToHideDrawer = false;
-        });
+            _hideCancellationTokenSource.Cancel();
+            _hideCancellationTokenSource = null;
+        }
+
+        _showCancellationTokenSource = new CancellationTokenSource();
+        _showCancellationToken = _showCancellationTokenSource.Token;
+        _ = Task.Run(
+            async Task? () =>
+            {
+                await Task.Delay(550);
+                if (_showCancellationToken.IsCancellationRequested == false)
+                {
+                    ShowDrawer = true;
+                }
+            },
+            _showCancellationToken);
     }
 
     [RelayCommand]
     private void OnHideDrawer()
     {
-        _IsAboutToHideDrawer = true;
-        _ = Task.Run(async Task? () =>
+        if (_showCancellationTokenSource != null)
         {
-            await Task.Delay(2000);
-            if (_IsAboutToHideDrawer)
+            _showCancellationTokenSource.Cancel();
+            _showCancellationTokenSource = null;
+        }
+
+        _hideCancellationTokenSource = new CancellationTokenSource();
+        _hideCancellationToken = _hideCancellationTokenSource.Token;
+        _ = Task.Run(
+            async Task? () =>
             {
-                ShowDrawer = false;
-            }
-        });
+                await Task.Delay(600);
+                if (_hideCancellationToken.IsCancellationRequested == false)
+                {
+                    ShowDrawer = false;
+                }
+            },
+            _hideCancellationToken);
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        _hideCancellationTokenSource?.Dispose();
+        _showCancellationTokenSource?.Dispose();
     }
 }
