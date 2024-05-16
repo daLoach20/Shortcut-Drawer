@@ -44,7 +44,7 @@ public partial class MainWindowViewModel : ObservableObject
     private int _width = 0;
 
     [ObservableProperty]
-    internal ObservableCollection<ShortcutItemBase> _shortcutItems = new ObservableCollection<ShortcutItemBase>();
+    private ObservableCollection<ShortcutItemBase> _shortcutItems = [];
 
     private void InitializeViewModel()
     {
@@ -62,20 +62,41 @@ public partial class MainWindowViewModel : ObservableObject
 
     private void LoadShortcutItems()
     {
-        List<ShortcutItemBase> itemsToLoad;
+        List<ShortcutItemBase>? itemsToLoad;
+        itemsToLoad = LoadShortcutsUsingDeserialization();
+
+        foreach (var item in itemsToLoad!)
+        {
+            ShortcutItems.Add(item);
+        }
+    }
+
+    private static List<ShortcutItemBase>? LoadShortcutsUsingDeserialization()
+    {
+        List<ShortcutItemBase>? itemsToLoad;
         var settings = new JsonSerializerSettings()
         {
             TypeNameHandling = TypeNameHandling.All,
         };
-        using (var sr = new System.IO.StreamReader("shortcuts.json"))
+        try
         {
-            itemsToLoad = JsonConvert.DeserializeObject<List<ShortcutItemBase>>(sr.ReadToEnd(), settings);
+            using var sr = new System.IO.StreamReader("shortcuts.json");
+            var doc = sr.ReadToEnd();
+            if (string.IsNullOrEmpty(doc) == false)
+            {
+                itemsToLoad = JsonConvert.DeserializeObject<List<ShortcutItemBase>>(doc, settings);
+            }
+            else
+            {
+                itemsToLoad = [];
+            }
+        }
+        catch (Exception)
+        {
+            itemsToLoad = [];
         }
 
-        foreach (var item in itemsToLoad)
-        {
-            ShortcutItems.Add(item);
-        }
+        return itemsToLoad;
     }
 
     [RelayCommand]
@@ -91,12 +112,7 @@ public partial class MainWindowViewModel : ObservableObject
             {
                 TypeNameHandling = TypeNameHandling.All,
             };
-
-            var x = JsonConvert.SerializeObject(output, settings);
-            using (var fw = new System.IO.StreamWriter("shortcuts.json"))
-            {
-                fw.WriteLine(x);
-            }
+            SerializeToShortcutsFile(output, settings);
 
             await Task.Delay(50);
             ShowAqua = true;
@@ -105,10 +121,11 @@ public partial class MainWindowViewModel : ObservableObject
         });
     }
 
-    [RelayCommand]
-    private void OnHyperlink()
+    private static void SerializeToShortcutsFile(List<ShortcutItemBase> output, JsonSerializerSettings settings)
     {
-
+        var x = JsonConvert.SerializeObject(output, settings);
+        using var fw = new System.IO.StreamWriter("shortcuts.json");
+        fw.WriteLine(x);
     }
 
     [RelayCommand]
@@ -118,7 +135,7 @@ public partial class MainWindowViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void OnClose()
+    private static void OnClose()
     {
         Application.Current.Shutdown();
     }
@@ -147,5 +164,4 @@ public partial class MainWindowViewModel : ObservableObject
             }
         });
     }
-
 }

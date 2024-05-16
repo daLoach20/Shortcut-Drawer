@@ -5,45 +5,60 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ShortcutDrawer.UI.WPF.Models;
 
 [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-public partial class ShortcutGroupItem : ShortcutItemBase
+public partial class ShortcutGroupItem : ShortcutItemBase, IDisposable
 {
-    private bool _canShowAgain = true;
+    private CancellationTokenSource? _cancellationTokenSource;
+    private CancellationToken _cancellationToken;
 
     [ObservableProperty]
-    [JsonProperty("ShortcutItems")]
+    [JsonProperty(nameof(ShortcutItems))]
     private ObservableCollection<ShortcutItem> _shortcutItems = new ObservableCollection<ShortcutItem>();
 
     [ObservableProperty]
     private bool _showShortcuts;
 
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        _cancellationTokenSource?.Dispose();
+    }
+
     [RelayCommand]
     private void OnMouseEnter()
     {
-        if (_canShowAgain)
+        ShowShortcuts = true;
+        if (_cancellationTokenSource != null)
         {
-            ShowShortcuts = !ShowShortcuts;
-            _canShowAgain = false;
-            _ = Task.Run(async Task? () =>
-            {
-                await Task.Delay(5000);
-                _canShowAgain = true;
-            });
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource = null;
         }
     }
 
     [RelayCommand]
     private void OnMouseLeave()
     {
-        _ = Task.Run(async Task? () =>
-        {
-            await Task.Delay(1000);
-            ShowShortcuts = false;
-            _canShowAgain = true;
-        });
+        _cancellationTokenSource = new CancellationTokenSource();
+        _cancellationToken = _cancellationTokenSource.Token;
+        _ = Task.Run(
+            async Task? () =>
+            {
+                await Task.Delay(1000);
+                if (_cancellationToken.IsCancellationRequested == false)
+                {
+                    ShowShortcuts = false;
+                }
+            },
+            _cancellationToken);
     }
 }

@@ -14,7 +14,7 @@
         <BooleanToVisibilityConverter x:Key="boolToVisCollapsed" />
     </UserControl.Resources>
     <Grid>
-        <Border Background="Black" CornerRadius="2">
+        <Border CornerRadius="2">
             <Grid>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseEnter">
@@ -28,7 +28,6 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <!--<TextBlock Grid.Row="0" Text="{Binding Name}" Foreground="White"/>-->
                 <ui:Button 
                     Content="{Binding Name}"
                     Icon="{ui:SymbolIcon ArrowStepBack16}"
@@ -42,28 +41,17 @@
                     MouseOverBackground="#995555FF"
                     Background="#995555FF">
                 </ui:Button>
-                <ItemsControl Grid.Row="1" ItemsSource="{Binding ShortcutItems}" Visibility="{Binding ShowShortcuts, Converter={StaticResource boolToVisCollapsed}}">
-                    <!--<i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseEnter">
-                            <i:InvokeCommandAction Command="{Binding ChildMouseEnterCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>-->
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ui:HyperlinkButton
-                    Content="{Binding Name}"
-                    NavigateUri="{Binding Path}"
-                    Icon="{ui:SymbolIcon Folder32}"
-                    Background="#99FF00FF"
-                    Height="35"
-                    HorizontalContentAlignment="Left"
-                    HorizontalAlignment="Stretch"
-                    VerticalContentAlignment="Center"
-                    Foreground="White"
-                    />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <Border Grid.Row="1" Margin="10,0,0,0" CornerRadius="2">
+                    <ItemsControl ItemsSource="{Binding ShortcutItems}" Visibility="{Binding ShowShortcuts, Converter={StaticResource boolToVisCollapsed}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type models:ShortcutItem}">
+                                <Border Padding="0,3">
+                                    <local:ShortcutItemView />
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
             </Grid>
         </Border>
     </Grid>
