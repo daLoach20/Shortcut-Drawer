@@ -2,10 +2,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ShortcutDrawer.UI.WPF.Services;
+using System;
 using System.IO;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
-using System;
 
 namespace ShortcutDrawer.UI.WPF;
 
@@ -26,7 +26,6 @@ public partial class App : Application
                 _ = services.AddHostedService<ApplicationHostService>();
                 _ = services.AddSingleton<IPageService, PageService>();
                 _ = services.AddSingleton<INavigationService, NavigationService>();
-                // _ = services.AddSingleton<INavigationWindow, Views.MainWindow>();
                 _ = services.AddSingleton<Views.MainWindow>();
                 _ = services.AddSingleton<ViewModels.MainWindowViewModel>();
             }
