@@ -18,7 +18,7 @@ public partial class ShortcutGroupItem : ShortcutItemBase, IDisposable
 
     [ObservableProperty]
     [JsonProperty(nameof(ShortcutItems))]
-    private ObservableCollection<ShortcutItem> _shortcutItems = new ObservableCollection<ShortcutItem>();
+    private ObservableCollection<ShortcutItem> _shortcutItems = [];
 
     [ObservableProperty]
     private bool _showShortcuts;
